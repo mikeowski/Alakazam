@@ -1,5 +1,5 @@
 import { createReactQueryHooks } from '@trpc/react'
 import type { AppRouter } from '../pages/api/trpc/[trpc]'
-
-export const trpc = createReactQueryHooks<AppRouter>()
+import superjson from 'superjson'
+export const trpc = createReactQueryHooks<AppRouter>({ transformer: superjson })
 // => { useQuery: ..., useMutation: ...}
