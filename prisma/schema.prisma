@@ -1,0 +1,21 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
+}
+
+datasource db {
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
+
+model Question{
+    id String @id @default(cuid())
+    createdAt DateTime @default(now())
+    endsAt DateTime? 
+    question String
+}
+
+
+
