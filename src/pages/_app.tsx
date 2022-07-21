@@ -2,10 +2,16 @@ import { withTRPC } from '@trpc/next'
 import superjson from 'superjson'
 import { AppType } from 'next/dist/shared/lib/utils'
 import type { AppRouter } from '../backend/router'
+import Header from '../components/header'
 import '../styles/globals.css'
 
 const MyApp: AppType = ({ Component, pageProps }) => {
-  return <Component {...pageProps} />
+  return (
+    <div>
+      <Header />
+      <Component {...pageProps} />
+    </div>
+  )
 }
 
 export default withTRPC<AppRouter>({
