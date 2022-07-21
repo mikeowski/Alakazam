@@ -1,13 +1,11 @@
 import type { NextPage } from 'next'
 import { trpc } from '../utils/trpc'
 import { useRef } from 'react'
-import { isAbsolute } from 'path'
 const CreateQuestion: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null)
   const client = trpc.useContext()
   const { mutate, isLoading } = trpc.useMutation('questions.create', {
     onSuccess: () => {
-      client.invalidateQueries(['questions.get-all'])
       client.invalidateQueries(['questions.get-all'])
       if (!inputRef.current) return
       inputRef.current.value = ''
