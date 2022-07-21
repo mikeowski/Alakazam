@@ -27,6 +27,7 @@ export const QuestionRouter = trpc
       return await prisma.question.create({
         data: {
           question: input.question,
+          options: [],
         },
       })
     },
