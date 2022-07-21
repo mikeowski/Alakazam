@@ -9,6 +9,16 @@ export const QuestionRouter = trpc
       return await prisma.question.findMany()
     },
   })
+  .query('get-from-id', {
+    input: z.object({ id: z.string() }),
+    async resolve({ input }) {
+      return await prisma.question.findUnique({
+        where: {
+          id: input.id,
+        },
+      })
+    },
+  })
   .mutation('create', {
     input: z.object({
       question: z.string().min(5).max(900),
