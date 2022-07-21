@@ -1,13 +1,27 @@
 import type { NextPage } from 'next'
 import { trpc } from '../utils/trpc'
-
+import { useRef } from 'react'
+import { isAbsolute } from 'path'
 const CreateQuestion: React.FC = () => {
-  const { mutate } = trpc.useMutation('questions.create')
+  const inputRef = useRef<HTMLInputElement>(null)
+  const client = trpc.useContext()
+  const { mutate, isLoading } = trpc.useMutation('questions.create', {
+    onSuccess: () => {
+      client.invalidateQueries(['questions.get-all'])
+      client.invalidateQueries(['questions.get-all'])
+      if (!inputRef.current) return
+      inputRef.current.value = ''
+    },
+  })
 
   return (
     <input
-      onSubmit={(event) => {
-        console.log(event.currentTarget.value)
+      disabled={isLoading}
+      onKeyDown={(event) => {
+        if (event.key == 'Enter') {
+          mutate({ question: event.currentTarget.value })
+          event.currentTarget.value = ''
+        }
       }}
     ></input>
   )
@@ -18,12 +32,13 @@ const Home: NextPage = () => {
   if (isLoading || !data) {
     return <div>Loading...</div>
   }
-  console.log(data)
   return (
-    <div>
+    <div className="flex flex-col px-20">
       <div className="flex flex-col ">
         <div className="text-4xl font-bold">Questions</div>
-        <div>{data[0].question}</div>
+        {data.map((v) => (
+          <div key={v.id}>{v.question}</div>
+        ))}
       </div>
       <CreateQuestion />
     </div>
