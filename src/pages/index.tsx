@@ -1,6 +1,8 @@
 import type { NextPage } from 'next'
 import { trpc } from '../utils/trpc'
 import { useRef } from 'react'
+import Header from '../components/header'
+import Link from 'next/link'
 const CreateQuestion: React.FC = () => {
   const inputRef = useRef<HTMLInputElement>(null)
   const client = trpc.useContext()
@@ -13,15 +15,18 @@ const CreateQuestion: React.FC = () => {
   })
 
   return (
-    <input
-      disabled={isLoading}
-      onKeyDown={(event) => {
-        if (event.key == 'Enter') {
-          mutate({ question: event.currentTarget.value })
-          event.currentTarget.value = ''
-        }
-      }}
-    ></input>
+    <div className="">
+      <input
+        disabled={isLoading}
+        className="h-10 border rounded"
+        onKeyDown={(event) => {
+          if (event.key == 'Enter') {
+            mutate({ question: event.currentTarget.value })
+            event.currentTarget.value = ''
+          }
+        }}
+      ></input>
+    </div>
   )
 }
 const Home: NextPage = () => {
@@ -31,14 +36,19 @@ const Home: NextPage = () => {
     return <div>Loading...</div>
   }
   return (
-    <div className="flex flex-col px-20">
+    <div className="flex flex-col items-center justify-center max-h-screen px-20">
       <div className="flex flex-col ">
-        <div className="text-4xl font-bold">Questions</div>
+        <CreateQuestion />
+
+        <div className="text-4xl font-bold text-center">Live Polls</div>
         {data.map((v) => (
-          <div key={v.id}>{v.question}</div>
+          <Link key={v.id} href={`/question/${v.id}`}>
+            <a>
+              <div key={v.id}>{v.question}</div>
+            </a>
+          </Link>
         ))}
       </div>
-      <CreateQuestion />
     </div>
   )
 }
