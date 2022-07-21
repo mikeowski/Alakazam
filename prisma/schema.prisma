@@ -15,7 +15,16 @@ model Question{
     createdAt DateTime @default(now())
     endsAt DateTime? 
     question String @db.VarChar(6000)
+    options Json
+    Vote Vote[]
 }
-
+model Vote{
+    id String @id @default(cuid())
+    createdAt DateTime @default(now())
+    choice Int
+    question Question @relation(fields: [questionId], references: [id])
+    questionId String
+    
+}
 
 
