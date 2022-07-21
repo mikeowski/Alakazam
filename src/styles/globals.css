@@ -4,5 +4,9 @@
 
 body {
   @apply bg-white text-gray-900
-  dark:bg-gray-900 dark:text-gray-300;
+  dark:bg-gray-900 dark:text-gray-200;
+}
+.container {
+  @apply max-w-screen-lg
+  mx-auto mt-32;
 }
