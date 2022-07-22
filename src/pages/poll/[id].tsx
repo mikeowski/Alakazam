@@ -16,7 +16,6 @@ const QuestionPage: NextPage = () => {
   if (isLoading) {
     return <div>Loading..</div>
   }
-  console.log(data.isOwner)
   return (
     <div className="flex flex-col items-center container ">
       <div className={'bg-red-700 my-2 py-3 px-8 font-bold rounded-md'}>
