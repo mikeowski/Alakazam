@@ -11,6 +11,7 @@ export const QuestionRouter = createRouter()
   })
   .query('get-all-my-quesitons', {
     async resolve({ ctx }) {
+      if (!ctx.token) return []
       return await prisma.question.findMany({
         where: { ownerToken: { equals: ctx.token } },
       })
