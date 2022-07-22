@@ -15,7 +15,8 @@ model Question{
     createdAt DateTime @default(now())
     endsAt DateTime? 
     question String @db.VarChar(6000)
-    options Json
+    ownerToken String @db.VarChar(6000)
+    options Json  
     Vote Vote[]
 }
 model Vote{
