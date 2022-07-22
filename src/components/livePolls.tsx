@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { trpc } from '../utils/trpc'
 
 const LivePolls: React.FC = () => {
-  const { data, isLoading } = trpc.useQuery(['questions.get-all'])
+  const { data, isLoading } = trpc.useQuery(['questions.get-all-my-quesitons'])
 
   return (
     <div className="flex flex-col justify-center mt-20">
