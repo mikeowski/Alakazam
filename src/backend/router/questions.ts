@@ -9,6 +9,13 @@ export const QuestionRouter = createRouter()
       return await prisma.question.findMany()
     },
   })
+  .query('get-all-my-quesitons', {
+    async resolve({ ctx }) {
+      return await prisma.question.findMany({
+        where: { ownerToken: { equals: ctx.token } },
+      })
+    },
+  })
   .query('get-from-id', {
     input: z.object({ id: z.string() }),
     async resolve({ input, ctx }) {
