@@ -38,7 +38,7 @@ const CreatePoll = () => {
               className="form-input dark:bg-gray-700 rounded-lg border border-gray-600 hover:border-gray-400 transition-all dark:text-gray-200"
             />
           </div>
-          {errors.exampleRequired && <span>This field is required</span>}
+          {errors.question && <span>This field is required</span>}
         </form>
       </div>
       <div className="flex flex-wrap"></div>
