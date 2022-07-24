@@ -27,7 +27,7 @@ const QuestionPage: NextPage = () => {
         {(data.poll?.options as string[]).map((v) => (
           <button
             key={v}
-            className="rounded-lg w-1/3 dark:border-gray-500 transition-all dark:hover:border-gray-300 w-full text-center h-14 border"
+            className="rounded-lg w-1/3 dark:border-gray-500 transition-all dark:hover:border-gray-300  text-center h-14 border"
           >
             {(v as any).text}
           </button>

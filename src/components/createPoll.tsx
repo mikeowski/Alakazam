@@ -40,7 +40,7 @@ const CreatePoll = () => {
   if (isLoading || data) return <div className="text-center">Loading...</div>
 
   return (
-    <div className="flex flex-col sm:w-3/5 w-full">
+    <div className="flex flex-col  w-full">
       <h2 className="md:text-4xl text-2xl text-center mb-4 font-extrabold">
         Create New Poll
       </h2>
@@ -51,34 +51,37 @@ const CreatePoll = () => {
           })}
           className="w-full outline-none"
         >
-          <div className="grid grid-cols-2 gap-2">
-            <label className="block col-span-2 text-lg">
+          <div className="grid grid-cols-2 gap-2 ">
+            <label className="block col-span-2 text-lg ">
               <span className="dark:text-gray-200 font-bold">Question</span>
               <input
                 type="text"
-                className="mt-1 block w-full  px-2 py-1 col-span-2 rounded-md border border-gray-600 hover:border-gray-400 dark:bg-gray-700  transition-all"
+                className="mt-1 block w-full  px-2 py-2 col-span-2 rounded-md border border-gray-600 hover:border-gray-400 dark:bg-gray-700  transition-all"
                 placeholder="Is the earth flat?"
                 {...register('question', { required: true })}
               />
             </label>{' '}
+            <span className="col-span-2 font-bold dark:text-gray-200">
+              Options
+            </span>
             {fields.map((field, index) => {
               return (
                 <div
                   key={field.id}
-                  className="px-2 py-2 rounded-md border bg-gray-700 border-gray-600 hover:border-gray-400 "
+                  className="col-span-2 lg:col-span-1 px-4 py-2 rounded-md border dark:bg-gray-700 border-gray-600 hover:border-gray-400 "
                 >
-                  <section className={'section'} key={field.id}>
+                  <section className={'flex justify-between'} key={field.id}>
                     <input
-                      placeholder="option"
+                      placeholder={`option ${index + 1}`}
                       {...register(`options.${index}.text`, {
                         required: true,
                       })}
-                      className="dark:bg-gray-700 focus:outline-none"
+                      className="dark:bg-gray-700 focus:outline-none w-full"
                     />
                     <button
                       type="button"
                       onClick={() => remove(index)}
-                      className="hover:underline"
+                      className="hover:underline "
                     >
                       DELETE
                     </button>
@@ -86,19 +89,18 @@ const CreatePoll = () => {
                 </div>
               )
             })}
-            <div className="col-span-2 form-input dark:bg-gray-700 rounded-lg border text-center border-gray-600 hover:border-gray-400 transition-all dark:text-gray-200 ">
-              <button
-                type="button"
-                value="add mode options"
-                onClick={() => append({ text: '' })}
-              >
-                Add option
-              </button>
-            </div>
+            <button
+              type="button"
+              value="add mode options"
+              onClick={() => append({ text: '' })}
+              className="col-span-2 form-input dark:bg-gray-700 rounded-lg border text-center border-gray-600 hover:border-gray-400 transition-all dark:text-gray-200"
+            >
+              Add option
+            </button>
             <input
               type="submit"
               value="Create a poll"
-              className="col-span-2 form-input dark:bg-gray-700 rounded-lg border border-gray-600 hover:border-gray-400 transition-all dark:text-gray-200"
+              className="hover:cursor-pointer col-span-2 form-input dark:bg-gray-700 rounded-lg border border-gray-600 hover:border-gray-400 transition-all dark:text-gray-200"
             />
             {errors.question && (
               <span className="dark:text-red-500 text-red-600">
