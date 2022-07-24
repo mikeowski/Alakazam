@@ -18,7 +18,12 @@ const QuestionPage: NextPage = () => {
   }
   return (
     <div className="flex flex-col items-center container ">
-      <div className={'bg-red-700 my-2 py-3 px-8 font-bold rounded-md'}>
+      <div
+        className={
+          'my-2 py-3 px-8 font-bold rounded-md ' +
+          (data.isOwner ? 'bg-red-700' : 'bg-green-700')
+        }
+      >
         {data.isOwner ? <span>Owner</span> : <span>Voter</span>}
       </div>
 
@@ -27,7 +32,7 @@ const QuestionPage: NextPage = () => {
         {(data.poll?.options as string[]).map((v) => (
           <button
             key={v}
-            className="rounded-lg w-1/3 dark:border-gray-500 transition-all dark:hover:border-gray-300  text-center h-14 border"
+            className="rounded-lg w-1/3 text-center h-14 boxWithHover"
           >
             {(v as any).text}
           </button>
