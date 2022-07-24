@@ -5,7 +5,7 @@ const Header = () => {
     <header className="w-full mx-auto text-6xl text-center pt-4">
       <Link href="/">
         <a href="">
-          <h1 className="">Poller</h1>
+          <h1 className="">Alakazam</h1>
         </a>
       </Link>
     </header>
