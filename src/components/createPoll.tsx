@@ -6,6 +6,7 @@ import {
   createQuestionValidator,
   createQuestionValidatorType,
 } from '../shared/create-question-validator'
+import { useRouter } from 'next/router'
 
 const CreatePoll = () => {
   const {
@@ -13,16 +14,21 @@ const CreatePoll = () => {
     handleSubmit,
     watch,
     formState: { errors },
+    reset,
   } = useForm<createQuestionValidatorType>({
     resolver: zodResolver(createQuestionValidator),
   })
   const client = trpc.useContext()
-  const onSubmit: SubmitHandler<createQuestionValidatorType> = (data) => {}
-  const { mutate, isLoading } = trpc.useMutation('questions.create', {
-    onSuccess: () => {
-      client.invalidateQueries('questions.get-all-my-quesitons')
+  const router = useRouter()
+  const onSubmit: SubmitHandler<createQuestionValidatorType> = (data) => {
+    mutate({ question: data.question })
+  }
+  const { mutate, isLoading, data } = trpc.useMutation('questions.create', {
+    onSuccess: (data) => {
+      router.push(`/poll/${data.id}`)
     },
   })
+  if (isLoading || data) return <div className="text-center">Loading...</div>
   return (
     <div className="flex flex-col sm:w-3/5 w-full">
       <h2 className="md:text-4xl text-2xl text-center mb-4 font-extrabold">
