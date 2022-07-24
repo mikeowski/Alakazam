@@ -7,7 +7,7 @@ const LivePolls: React.FC = () => {
     'questions.get-all-public-questions',
   ])
   return (
-    <div className="flex mt-20 justify-evenly w-full">
+    <div className="flex flex-col sm:flex-row mt-20 justify-evenly w-full">
       <div>
         {!isLoading && (!data || data.length == 0) ? (
           <h2 className="text-2xl text-center">Your dont have a poll yet</h2>
@@ -26,6 +26,7 @@ const LivePolls: React.FC = () => {
           </div>
         )}
       </div>
+      <hr className="border border-top-2 w-full sm:hidden my-4" />
       <div>
         {!publicIsloading && (!publicPolls || publicPolls.length == 0) ? (
           <h2 className="text-2xl text-center">No public polls found</h2>
