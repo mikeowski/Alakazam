@@ -1,6 +1,7 @@
 import * as trpc from '@trpc/server'
 import { z } from 'zod'
 import { prisma } from '../../db/client'
+import { createQuestionValidator } from '../../shared/create-question-validator'
 import { createRouter } from './context'
 
 export const QuestionRouter = createRouter()
@@ -29,9 +30,7 @@ export const QuestionRouter = createRouter()
     },
   })
   .mutation('create', {
-    input: z.object({
-      question: z.string().min(5).max(900),
-    }),
+    input: createQuestionValidator,
     async resolve({ input, ctx }) {
       if (!ctx.token) return { error: 'Unauthorized' }
       return await prisma.question.create({
