@@ -26,7 +26,18 @@ export const QuestionRouter = createRouter()
           id: input.id,
         },
       })
-      return { poll: pollData, isOwner: pollData?.ownerToken === ctx.token }
+      if (!pollData) throw new Error('poll not found')
+      const myVoteData = await prisma.vote.findFirst({
+        where: {
+          questionId: { equals: input.id },
+          voterToken: { equals: ctx.token },
+        },
+      })
+      return {
+        poll: pollData,
+        isOwner: pollData?.ownerToken === ctx.token,
+        myVote: myVoteData,
+      }
     },
   })
   .mutation('create', {
@@ -38,6 +49,22 @@ export const QuestionRouter = createRouter()
           question: input.question,
           options: input.options,
           ownerToken: ctx.token,
+        },
+      })
+    },
+  })
+  .mutation('vote', {
+    input: z.object({
+      questionId: z.string(),
+      optionIndex: z.number().min(0).max(19),
+    }),
+    async resolve({ input, ctx }) {
+      if (!ctx.token) throw new Error('unauthorized')
+      return await prisma.vote.create({
+        data: {
+          voterToken: ctx.token,
+          questionId: input.questionId,
+          choice: input.optionIndex,
         },
       })
     },

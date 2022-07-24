@@ -8,8 +8,13 @@ const QuestionPage: NextPage = () => {
   if (!id || typeof id !== 'string') {
     return <div>Question ID is not found</div>
   }
+  const client = trpc.useContext()
   const { data, isLoading } = trpc.useQuery(['questions.get-from-id', { id }])
-
+  const { mutate, data: voteResponse } = trpc.useMutation('questions.vote', {
+    onSuccess: () => {
+      client.invalidateQueries(['questions.get-from-id', { id }])
+    },
+  })
   if (!isLoading && !data) {
     return <div>Poll not found</div>
   }
@@ -26,15 +31,23 @@ const QuestionPage: NextPage = () => {
       >
         {data.isOwner ? <span>Owner</span> : <span>Voter</span>}
       </div>
-
       <h1 className="text-2xl md:text-4xl font-bold">{data.poll?.question}</h1>
+
       <div className="flex flex-wrap gap-2 w-full items-center justify-center mt-10">
-        {(data.poll?.options as string[]).map((v) => (
+        {(data.poll?.options as string[]).map((option, index) => (
           <button
-            key={v}
-            className="rounded-lg w-1/3 text-center h-14 boxWithHover"
+            key={index}
+            className={`rounded-lg w-1/3 text-center h-14  ${
+              data.myVote?.choice == index
+                ? 'ring ring-green-500'
+                : 'boxWithHover'
+            }`}
+            onClick={() => {
+              mutate({ questionId: data.poll?.id, optionIndex: index })
+            }}
+            disabled={data.myVote != null}
           >
-            {(v as any).text}
+            {(option as any).text}
           </button>
         ))}
       </div>

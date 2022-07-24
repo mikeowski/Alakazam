@@ -1,4 +1,3 @@
-import { useRef } from 'react'
 import { useForm, SubmitHandler, useFieldArray } from 'react-hook-form'
 import { trpc } from '../utils/trpc'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -82,6 +81,7 @@ const CreatePoll = () => {
                       type="button"
                       onClick={() => remove(index)}
                       className="hover:underline "
+                      disabled={fields.length === 2}
                     >
                       DELETE
                     </button>
@@ -105,11 +105,6 @@ const CreatePoll = () => {
             {errors.question && (
               <span className="dark:text-red-500 text-red-600">
                 {errors.question.message}
-              </span>
-            )}{' '}
-            {errors.options && (
-              <span className="dark:text-red-500 text-red-600">
-                {errors.options.message}
               </span>
             )}
           </div>
