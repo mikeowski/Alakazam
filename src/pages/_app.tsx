@@ -4,12 +4,14 @@ import { AppType } from 'next/dist/shared/lib/utils'
 import type { AppRouter } from '../backend/router'
 import Header from '../components/header'
 import '../styles/globals.css'
+import Footer from '../components/footer'
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <div>
       <Header />
       <Component {...pageProps} />
+      <Footer />
     </div>
   )
 }
