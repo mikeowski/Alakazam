@@ -26,7 +26,7 @@ export const QuestionRouter = createRouter()
           id: input.id,
         },
       })
-      if (!pollData) throw new Error('poll not found')
+
       const myVoteData = await prisma.vote.findFirst({
         where: {
           questionId: { equals: input.id },

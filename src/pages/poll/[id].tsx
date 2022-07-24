@@ -1,4 +1,5 @@
 import { NextPage } from 'next'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { trpc } from '../../utils/trpc'
 
@@ -15,11 +16,26 @@ const QuestionPage: NextPage = () => {
       client.invalidateQueries(['questions.get-from-id', { id }])
     },
   })
-  if (!isLoading && !data) {
-    return <div>Poll not found</div>
+  if (!isLoading && (!data?.poll || !data)) {
+    return (
+      <div className="m-48 text-center  ">
+        <h2 className="text-4xl">Poll Not Found</h2>
+        <p>
+          Seems like you lost{' '}
+          <Link href="/" className="text-3xl">
+            <a href="" className="dark:text-red-600 underline">
+              {' '}
+              Come here
+            </a>
+          </Link>
+        </p>
+      </div>
+    )
   }
   if (isLoading) {
-    return <div>Loading..</div>
+    return (
+      <div className="m-48 text-center text-4xl animate-pulse">Loading..</div>
+    )
   }
   return (
     <div className="flex flex-col items-center container ">
@@ -35,10 +51,10 @@ const QuestionPage: NextPage = () => {
         <div
           className={
             'my-2 py-3 px-8 font-bold rounded-md ' +
-            (!data.poll.isPublic ? 'bg-red-700' : 'bg-green-700')
+            (!data?.poll?.isPublic ? 'bg-red-700' : 'bg-green-700')
           }
         >
-          {data.poll.isPublic ? <span>Public</span> : <span>Private</span>}
+          {data?.poll?.isPublic ? <span>Public</span> : <span>Private</span>}
         </div>
       </div>
       <h1 className="text-2xl md:text-4xl font-bold">{data.poll?.question}</h1>
@@ -53,7 +69,7 @@ const QuestionPage: NextPage = () => {
                 : 'boxWithHover'
             }`}
             onClick={() => {
-              mutate({ questionId: data.poll?.id, optionIndex: index })
+              mutate({ questionId: data.poll?.id!, optionIndex: index })
             }}
             disabled={data.myVote != null}
           >

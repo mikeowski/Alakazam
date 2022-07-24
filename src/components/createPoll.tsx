@@ -36,7 +36,10 @@ const CreatePoll = () => {
     },
   })
 
-  if (isLoading || data) return <div className="text-center">Loading...</div>
+  if (isLoading || data)
+    return (
+      <div className="m-48 text-center text-4xl animate-pulse">Loading..</div>
+    )
 
   return (
     <div className="flex flex-col  w-full">
@@ -100,7 +103,7 @@ const CreatePoll = () => {
                 Add option
               </button>
               <label className="flex items-center justify-between w-full col-span-2">
-                <span className="text-lg font-bold">Public</span>
+                <span className="sm:text-lg sm:font-bold">Public</span>
                 <input
                   type="checkbox"
                   {...register('isPublic')}
