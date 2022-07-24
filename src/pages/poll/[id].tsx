@@ -23,13 +23,13 @@ const QuestionPage: NextPage = () => {
       </div>
 
       <h1 className="text-2xl md:text-4xl font-bold">{data.poll?.question}</h1>
-      <div className="flex flex-col gap-2 w-full items-center mt-10">
+      <div className="flex flex-wrap gap-2 w-full items-center justify-center mt-10">
         {(data.poll?.options as string[]).map((v) => (
           <button
             key={v}
-            className="rounded-lg dark:border-gray-500 transition-all dark:hover:border-gray-300 w-full text-center h-14 border"
+            className="rounded-lg w-1/3 dark:border-gray-500 transition-all dark:hover:border-gray-300 w-full text-center h-14 border"
           >
-            {v}
+            {(v as any).text}
           </button>
         ))}
       </div>
