@@ -6,6 +6,7 @@ export const createQuestionValidator = z.object({
     .array(z.object({ text: z.string().min(1).max(250) }))
     .min(2)
     .max(20),
+  isPublic: z.boolean(),
 })
 
 export type createQuestionValidatorType = z.infer<

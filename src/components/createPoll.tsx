@@ -89,14 +89,25 @@ const CreatePoll = () => {
                 </div>
               )
             })}
-            <button
-              type="button"
-              value="add mode options"
-              onClick={() => append({ text: '' })}
-              className="col-span-2 form-input boxWithHover   text-center  "
-            >
-              Add option
-            </button>
+            <div className="col-span-2 grid grid-cols-6 gap-4">
+              {' '}
+              <button
+                type="button"
+                value="add mode options"
+                onClick={() => append({ text: '' })}
+                className="form-input boxWithHover text-center col-span-4"
+              >
+                Add option
+              </button>
+              <label className="flex items-center justify-between w-full col-span-2">
+                <span className="text-lg font-bold">Public</span>
+                <input
+                  type="checkbox"
+                  {...register('isPublic')}
+                  className="w-8 h-8 flex-none rounded-md text-black dark:text-gray-500 indeterminate:bg-gray-300 checked:ring-0"
+                />
+              </label>
+            </div>
             <input
               type="submit"
               value="Create a poll"

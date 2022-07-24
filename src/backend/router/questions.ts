@@ -5,9 +5,9 @@ import { createQuestionValidator } from '../../shared/create-question-validator'
 import { createRouter } from './context'
 
 export const QuestionRouter = createRouter()
-  .query('get-all', {
+  .query('get-all-public-questions', {
     async resolve() {
-      return await prisma.question.findMany()
+      return await prisma.question.findMany({ where: { isPublic: true } })
     },
   })
   .query('get-all-my-quesitons', {
@@ -49,6 +49,7 @@ export const QuestionRouter = createRouter()
           question: input.question,
           options: input.options,
           ownerToken: ctx.token,
+          isPublic: input.isPublic,
         },
       })
     },

@@ -23,13 +23,23 @@ const QuestionPage: NextPage = () => {
   }
   return (
     <div className="flex flex-col items-center container ">
-      <div
-        className={
-          'my-2 py-3 px-8 font-bold rounded-md ' +
-          (data.isOwner ? 'bg-red-700' : 'bg-green-700')
-        }
-      >
-        {data.isOwner ? <span>Owner</span> : <span>Voter</span>}
+      <div className="flex gap-4">
+        <div
+          className={
+            'my-2 py-3 px-8 font-bold rounded-md ' +
+            (data.isOwner ? 'bg-red-700' : 'bg-green-700')
+          }
+        >
+          {data.isOwner ? <span>Owner</span> : <span>Voter</span>}
+        </div>
+        <div
+          className={
+            'my-2 py-3 px-8 font-bold rounded-md ' +
+            (!data.poll.isPublic ? 'bg-red-700' : 'bg-green-700')
+          }
+        >
+          {data.poll.isPublic ? <span>Public</span> : <span>Private</span>}
+        </div>
       </div>
       <h1 className="text-2xl md:text-4xl font-bold">{data.poll?.question}</h1>
 

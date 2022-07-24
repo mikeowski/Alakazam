@@ -18,6 +18,7 @@ model Question{
     ownerToken String @db.VarChar(255)
     options Json  
     Vote Vote[]
+    isPublic Boolean @default(false)
     @@index([ownerToken])
 }
 model Vote{
