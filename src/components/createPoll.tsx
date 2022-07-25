@@ -98,11 +98,11 @@ const CreatePoll = () => {
                 type="button"
                 value="add mode options"
                 onClick={() => append({ text: '' })}
-                className="form-input boxWithHover text-center col-span-4"
+                className="form-input boxWithHover text-center sm:col-span-4 col-span-3"
               >
                 Add option
               </button>
-              <label className="flex items-center justify-between w-full col-span-2">
+              <label className="flex items-center justify-between w-full sm:col-span-2 col-span-3">
                 <span className="sm:text-lg sm:font-bold">Public</span>
                 <input
                   type="checkbox"
@@ -119,6 +119,11 @@ const CreatePoll = () => {
             {errors.question && (
               <span className="dark:text-red-500 text-red-600">
                 {errors.question.message}
+              </span>
+            )}
+            {errors.options && (
+              <span className="dark:text-red-500 text-red-600">
+                {errors.options.message}
               </span>
             )}
           </div>
