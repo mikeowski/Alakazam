@@ -6,6 +6,7 @@ import {
   createQuestionValidatorType,
 } from '../shared/create-question-validator'
 import { useRouter } from 'next/router'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 const CreatePoll = () => {
   const {
@@ -21,6 +22,7 @@ const CreatePoll = () => {
       options: [{ text: 'Yes' }, { text: 'No' }],
     },
   })
+  const [animate] = useAutoAnimate<HTMLDivElement>()
   const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
     {
       control, // control props comes from useForm (optional: if you are using FormContext)
@@ -66,32 +68,37 @@ const CreatePoll = () => {
             <span className="col-span-2 font-bold dark:text-gray-200">
               Options
             </span>
-            {fields.map((field, index) => {
-              return (
-                <div
-                  key={field.id}
-                  className="col-span-2 lg:col-span-1 px-4 py-2   boxWithHover"
-                >
-                  <section className={'flex justify-between'} key={field.id}>
-                    <input
-                      placeholder={`option ${index + 1}`}
-                      {...register(`options.${index}.text`, {
-                        required: true,
-                      })}
-                      className="dark:bg-gray-700 focus:outline-none w-full"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => remove(index)}
-                      className="hover:underline "
-                      disabled={fields.length === 2}
-                    >
-                      DELETE
-                    </button>
-                  </section>
-                </div>
-              )
-            })}
+            <div
+              className="grid grid-cols-2 w-full col-span-2 gap-2"
+              ref={animate}
+            >
+              {fields.map((field, index) => {
+                return (
+                  <div
+                    key={field.id}
+                    className="col-span-2 lg:col-span-1 px-4 py-2 h-10 boxWithHover"
+                  >
+                    <section className={'flex justify-between'} key={field.id}>
+                      <input
+                        placeholder={`option ${index + 1}`}
+                        {...register(`options.${index}.text`, {
+                          required: true,
+                        })}
+                        className="dark:bg-gray-700 focus:outline-none w-full"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => remove(index)}
+                        className="hover:underline "
+                        disabled={fields.length === 2}
+                      >
+                        DELETE
+                      </button>
+                    </section>
+                  </div>
+                )
+              })}
+            </div>
             <div className="col-span-2 grid grid-cols-6 gap-4">
               {' '}
               <button
