@@ -4,7 +4,7 @@
 
 body {
   @apply bg-white text-gray-900
-  dark:bg-gray-900 dark:text-gray-200;
+  dark:bg-gray-900 dark:text-gray-200 pb-10;
 }
 .container {
   @apply max-w-screen-lg
