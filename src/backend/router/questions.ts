@@ -33,10 +33,22 @@ export const QuestionRouter = createRouter()
           voterToken: { equals: ctx.token },
         },
       })
+
+      const votes =
+        pollData?.ownerToken === ctx.token || myVoteData
+          ? await prisma.vote.groupBy({
+              by: ['choice'],
+              where: {
+                questionId: { equals: input.id },
+              },
+              _count: true,
+            })
+          : []
       return {
         poll: pollData,
         isOwner: pollData?.ownerToken === ctx.token,
         myVote: myVoteData,
+        votes,
       }
     },
   })
