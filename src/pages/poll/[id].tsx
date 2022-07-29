@@ -110,7 +110,7 @@ const QuestionPage: NextPage = () => {
               ></div>
               <div className="font-bold">
                 {' '}
-                {(option as any).text} - {getPercentage(index)}%
+                {(option as any).text} - {getPercentage(index).toFixed(2)}%
               </div>
             </div>
           )
