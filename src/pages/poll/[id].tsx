@@ -40,11 +40,12 @@ const QuestionPage: NextPage = () => {
     return totalVote
   }
   const getPercentage = (index: number) => {
-    console.log()
     return data?.votes?.find((v) => v.choice == index)
-      ? (data?.votes?.find((v) => v.choice == index)?._count! /
-          totalVoteCalculator()) *
+      ? (
+          (data?.votes?.find((v) => v.choice == index)?._count! /
+            totalVoteCalculator()) *
           100
+        ).toFixed(1)
       : 0
   }
   if (isLoading) {
@@ -75,29 +76,22 @@ const QuestionPage: NextPage = () => {
       <h1 className="text-2xl md:text-4xl font-bold">{data.poll?.question}</h1>
 
       <div className="flex flex-wrap gap-2 w-full items-center justify-center mt-10">
-        {(data.poll?.options as string[]).map((option, index) =>
-          data.votes.length == 0 ? (
-            <button
-              key={index}
-              className={`rounded-lg w-1/3 text-center h-14  ${
-                data.myVote?.choice == index
-                  ? 'ring ring-green-500'
-                  : 'boxWithHover'
-              }`}
-              onClick={() => {
-                mutate({ questionId: data.poll?.id!, optionIndex: index })
-              }}
-              disabled={data.myVote != null}
-            >
-              {(option as any).text}
-            </button>
-          ) : (
-            <div
-              key={index}
-              className="rounded-lg w-1/3 text-center h-14 border flex gap-2 flex-col boxWithHover"
-            >
+        {(data.poll?.options as string[]).map((option, index) => (
+          <button
+            key={index}
+            className={`rounded-lg w-1/3 text-center h-14 relative  ${
+              data.myVote?.choice == index
+                ? 'ring ring-green-500'
+                : 'boxWithHover'
+            }`}
+            onClick={() => {
+              mutate({ questionId: data.poll?.id!, optionIndex: index })
+            }}
+            disabled={data.myVote != null}
+          >
+            {data.votes.length == 0 || (
               <div
-                className={`h-2 bottom-0 rounded-lg  ${
+                className={`h-2 top-0 absolute rounded-lg  ${
                   getPercentage(index) > 80
                     ? 'bg-green-500'
                     : getPercentage(index) > 50
@@ -108,13 +102,18 @@ const QuestionPage: NextPage = () => {
                   width: `${getPercentage(index)}%`,
                 }}
               ></div>
-              <div className="font-bold">
-                {' '}
-                {(option as any).text} - {getPercentage(index).toFixed(2)}%
-              </div>
-            </div>
-          )
-        )}
+            )}
+            <span>
+              {' '}
+              {`${(option as any).text}  ${
+                data.votes.length != 0 ? '- %' + getPercentage(index) : ''
+              }`}
+            </span>
+          </button>
+        ))}
+      </div>
+      <div className="mt-8 text-lg font-bold">
+        total votes: {data.myVote ? totalVoteCalculator() : ''}
       </div>
     </div>
   )
