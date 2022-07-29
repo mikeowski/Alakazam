@@ -40,8 +40,11 @@ const QuestionPage: NextPage = () => {
     return totalVote
   }
   const getPercentage = (index: number) => {
-    return data?.votes[index]
-      ? (data?.votes[index]._count / totalVoteCalculator()) * 100
+    console.log()
+    return data?.votes?.find((v) => v.choice == index)
+      ? (data?.votes?.find((v) => v.choice == index)?._count! /
+          totalVoteCalculator()) *
+          100
       : 0
   }
   if (isLoading) {
@@ -89,7 +92,10 @@ const QuestionPage: NextPage = () => {
               {(option as any).text}
             </button>
           ) : (
-            <div className="rounded-lg w-1/3 text-center h-14 border flex gap-2 flex-col boxWithHover">
+            <div
+              key={index}
+              className="rounded-lg w-1/3 text-center h-14 border flex gap-2 flex-col boxWithHover"
+            >
               <div
                 className={`h-2 bottom-0 rounded-lg  ${
                   getPercentage(index) > 80
@@ -99,11 +105,7 @@ const QuestionPage: NextPage = () => {
                     : 'bg-red-500'
                 }`}
                 style={{
-                  width: `${
-                    data.votes[index]
-                      ? (data.votes[index]._count / totalVoteCalculator()) * 100
-                      : 0
-                  }%`,
+                  width: `${getPercentage(index)}%`,
                 }}
               ></div>
               <div className="font-bold">
