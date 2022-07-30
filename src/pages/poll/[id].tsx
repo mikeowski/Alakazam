@@ -112,9 +112,11 @@ const QuestionPage: NextPage = () => {
           </button>
         ))}
       </div>
-      <div className="mt-8 text-lg font-bold">
-        total votes: {data.myVote ? totalVoteCalculator() : ''}
-      </div>
+      {data.votes.length != 0 ? (
+        <div className="mt-8 text-lg font-bold">
+          total votes: {data.myVote ? totalVoteCalculator() : ''}
+        </div>
+      ) : null}
     </div>
   )
 }
