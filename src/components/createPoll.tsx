@@ -105,7 +105,7 @@ const CreatePoll = () => {
                 type="button"
                 value="add mode options"
                 onClick={() => append({ text: '' })}
-                className="form-input boxWithHover text-center sm:col-span-4 col-span-3"
+                className="form-input px-4 py-2 boxWithHover text-center sm:col-span-4 col-span-3 "
               >
                 Add option
               </button>
@@ -114,14 +114,14 @@ const CreatePoll = () => {
                 <input
                   type="checkbox"
                   {...register('isPublic')}
-                  className="w-8 h-8 flex-none rounded-md text-black dark:text-gray-500 indeterminate:bg-gray-300 checked:ring-0"
+                  className="w-8 h-8 flex-none rounded-md text-black  dark:text-gray-500 indeterminate:bg-gray-300 checked:ring-0"
                 />
               </label>
             </div>
             <input
               type="submit"
               value="Create a poll"
-              className="hover:cursor-pointer col-span-2 form-input   boxWithHover "
+              className="hover:cursor-pointer px-4 py-2 col-span-2 form-input boxWithHover"
             />
             {errors.question && (
               <span className="dark:text-red-500 text-red-600">
