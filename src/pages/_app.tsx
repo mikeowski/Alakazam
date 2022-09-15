@@ -1,18 +1,22 @@
 import { withTRPC } from '@trpc/next'
 import superjson from 'superjson'
+import { SessionProvider } from 'next-auth/react'
 import { AppType } from 'next/dist/shared/lib/utils'
 import type { AppRouter } from '../backend/router'
 import Header from '../components/header'
 import '../styles/globals.css'
 import Footer from '../components/footer'
 
-const MyApp: AppType = ({ Component, pageProps }) => {
+const MyApp: AppType = ({
+  Component,
+  pageProps: { session, ...pageProps },
+}) => {
   return (
-    <div>
+    <SessionProvider session={session}>
       <Header />
       <Component {...pageProps} />
       <Footer />
-    </div>
+    </SessionProvider>
   )
 }
 function getBaseUrl() {
