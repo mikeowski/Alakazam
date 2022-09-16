@@ -1,14 +1,27 @@
 import type { NextPage } from 'next'
-import { trpc } from '../utils/trpc'
-import { useRef } from 'react'
-import Link from 'next/link'
+import { useSession, signIn, signOut } from 'next-auth/react'
 import CreatePoll from '../components/createPoll'
 import LivePolls from '../components/livePolls'
+import SingIn from '../components/signIn'
+import Welcome from '../components/welcome'
 const Home: NextPage = () => {
+  const { data: session } = useSession()
   return (
     <div className="container flex flex-col items-center justify-center px-20 ">
-      <CreatePoll />
-      <LivePolls />
+      <div>
+        {session ? (
+          <>
+            <Welcome />
+            <CreatePoll />
+            <LivePolls />
+            <button onClick={() => signOut()}>Sign Out</button>
+          </>
+        ) : (
+          <>
+            <SingIn />
+          </>
+        )}
+      </div>
     </div>
   )
 }
