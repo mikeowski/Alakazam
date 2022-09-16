@@ -19,14 +19,28 @@ const QuestionPage: NextPage = () => {
     'questions.get-from-id',
     { questionId: id, userId: session?.user.id! },
   ])
-  const { mutate, data: voteResponse } = trpc.useMutation('questions.vote', {
-    onSuccess: () => {
-      client.invalidateQueries([
-        'questions.get-from-id',
-        { questionId: id, userId: session?.user.id! },
-      ])
-    },
-  })
+  const { mutate: vote, data: voteResponse } = trpc.useMutation(
+    'questions.vote',
+    {
+      onSuccess: () => {
+        client.invalidateQueries([
+          'questions.get-from-id',
+          { questionId: id, userId: session?.user.id! },
+        ])
+      },
+    }
+  )
+  const { mutate: deleteQuestion } = trpc.useMutation(
+    ['questions.deleteQuesiton'],
+    {
+      onSuccess: () => {
+        client.invalidateQueries([
+          'questions.get-from-id',
+          { questionId: id, userId: session?.user.id! },
+        ])
+      },
+    }
+  )
   const totalVoteCalculator = () => {
     let totalVote = 0
     data?.votes.forEach((v) => {
@@ -90,7 +104,7 @@ const QuestionPage: NextPage = () => {
                       : 'boxWithHover'
                   }`}
                   onClick={() => {
-                    mutate({
+                    vote({
                       questionId: data.poll?.id!,
                       optionIndex: index,
                       userId: session?.user.id!,
@@ -130,7 +144,9 @@ const QuestionPage: NextPage = () => {
               {data.isOwner && (
                 <button
                   className="hover:cursor-pointer px-4 py-2 col-span-2 form-input boxWithHover-danger"
-                  onClick={() => {}}
+                  onClick={() => {
+                    deleteQuestion({ questionId: data.poll?.id! })
+                  }}
                 >
                   Close and Delete
                 </button>

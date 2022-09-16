@@ -84,3 +84,12 @@ export const QuestionRouter = createRouter()
       })
     },
   })
+  .mutation('deleteQuesiton', {
+    input: z.object({
+      questionId: z.string(),
+    }),
+    async resolve({ input }) {
+      await prisma.vote.deleteMany({ where: { questionId: input.questionId } })
+      await prisma.question.delete({ where: { id: input.questionId } })
+    },
+  })
