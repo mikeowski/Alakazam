@@ -1,8 +1,13 @@
 import Link from 'next/link'
 import { trpc } from '../utils/trpc'
+import { useSession } from 'next-auth/react'
 
 const LivePolls: React.FC = () => {
-  const { data, isLoading } = trpc.useQuery(['questions.get-all-my-quesitons'])
+  const { data: session } = useSession()
+  const { data, isLoading } = trpc.useQuery([
+    'questions.get-all-my-quesitons',
+    { userId: session?.user.id! },
+  ])
   const { data: publicPolls, isLoading: publicIsloading } = trpc.useQuery([
     'questions.get-all-public-questions',
   ])
