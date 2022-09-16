@@ -3,7 +3,7 @@ import { useSession, signIn, signOut } from 'next-auth/react'
 import CreatePoll from '../components/createPoll'
 import LivePolls from '../components/livePolls'
 import SingIn from '../components/signIn'
-import Welcome from '../components/welcome'
+
 const Home: NextPage = () => {
   const { data: session } = useSession()
   return (
@@ -11,7 +11,6 @@ const Home: NextPage = () => {
       <div>
         {session ? (
           <>
-            <Welcome />
             <CreatePoll />
             <LivePolls />
           </>
