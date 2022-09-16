@@ -14,7 +14,6 @@ const Home: NextPage = () => {
             <Welcome />
             <CreatePoll />
             <LivePolls />
-            <button onClick={() => signOut()}>Sign Out</button>
           </>
         ) : (
           <>
