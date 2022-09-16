@@ -9,16 +9,7 @@ datasource db {
   referentialIntegrity = "prisma"
 }
 
-model User {
-  id String @id @default(cuid())
-  email String 
-  username String 
-  image String
-  Quesions Question[]
-  Votes Vote[]
-  @@unique([email,id])
-  @@index([id])
-}
+
 model Question{
     id String @id @default(cuid())
     createdAt DateTime @default(now())
@@ -26,7 +17,7 @@ model Question{
     question String @db.VarChar(255)
     userId String @db.VarChar(255)
     options Json
-    User User @relation(fields: [userId], references: [id])  
+   
     Vote Vote[]
     isPublic Boolean @default(false)
     @@index([userId])
@@ -37,7 +28,7 @@ model Vote{
     choice Int
     userId String @db.VarChar(255)
     question Question @relation(fields: [questionId], references: [id])
-    User User @relation(fields: [userId], references: [id])
+
     questionId String
     @@unique([userId, questionId])
     @@index([userId])
