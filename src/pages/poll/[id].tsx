@@ -7,7 +7,7 @@ import Welcome from '../../components/welcome'
 import { trpc } from '../../utils/trpc'
 
 const QuestionPage: NextPage = () => {
-  const { query } = useRouter()
+  const { query, push } = useRouter()
   const { id } = query
   const { data: session } = useSession()
   if (!id || typeof id !== 'string') {
@@ -27,22 +27,6 @@ const QuestionPage: NextPage = () => {
       ])
     },
   })
-  if (!isLoading && (!data?.poll || !data)) {
-    return (
-      <div className="m-48 text-center  ">
-        <h2 className="text-4xl">Poll Not Found</h2>
-        <p>
-          Seems like you lost{' '}
-          <Link href="/" className="text-3xl">
-            <a href="" className="dark:text-red-600 underline">
-              {' '}
-              Come here
-            </a>
-          </Link>
-        </p>
-      </div>
-    )
-  }
   const totalVoteCalculator = () => {
     let totalVote = 0
     data?.votes.forEach((v) => {
@@ -66,7 +50,7 @@ const QuestionPage: NextPage = () => {
   }
   return (
     <div>
-      {session ? (
+      {session && !(!isLoading && (!data?.poll || !data)) ? (
         <>
           <div className="flex flex-col items-center container ">
             <Welcome />
@@ -145,9 +129,18 @@ const QuestionPage: NextPage = () => {
           </div>
         </>
       ) : (
-        <>
-          <SingIn />
-        </>
+        <div className="m-48 text-center  ">
+          <h2 className="text-4xl">OPPSS........</h2>
+          <p>
+            Seems like you lost{' '}
+            <Link href="/" className="text-3xl">
+              <a href="" className="dark:text-red-600 underline">
+                {' '}
+                Come here
+              </a>
+            </Link>
+          </p>
+        </div>
       )}
     </div>
   )
