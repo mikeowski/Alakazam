@@ -11,18 +11,20 @@ datasource db {
 
 model User {
   id String @id @default(cuid())
-  email String @unique
+  email String 
   username String 
   image String
   Quesions Question[]
   Votes Vote[]
+  @@unique([email,id])
+  @@index([id])
 }
 model Question{
     id String @id @default(cuid())
     createdAt DateTime @default(now())
     endsAt DateTime? 
-    question String @db.VarChar(6000)
-    userId String @db.VarChar(6000)
+    question String @db.VarChar(255)
+    userId String @db.VarChar(255)
     options Json
     User User @relation(fields: [userId], references: [id])  
     Vote Vote[]
@@ -33,7 +35,7 @@ model Vote{
     id String @id @default(cuid())
     createdAt DateTime @default(now())
     choice Int
-    userId String @db.VarChar(6000)
+    userId String @db.VarChar(255)
     question Question @relation(fields: [questionId], references: [id])
     User User @relation(fields: [userId], references: [id])
     questionId String
