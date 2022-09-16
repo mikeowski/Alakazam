@@ -14,22 +14,24 @@ model Question{
     id String @id @default(cuid())
     createdAt DateTime @default(now())
     endsAt DateTime? 
-    question String @db.VarChar(6000)
-    ownerToken String @db.VarChar(255)
-    options Json  
+    question String @db.VarChar(255)
+    userId String @db.VarChar(255)
+    options Json
+   
     Vote Vote[]
     isPublic Boolean @default(false)
-    @@index([ownerToken])
+    @@index([userId])
 }
 model Vote{
     id String @id @default(cuid())
     createdAt DateTime @default(now())
     choice Int
-    voterToken String @db.VarChar(255)
+    userId String @db.VarChar(255)
     question Question @relation(fields: [questionId], references: [id])
+
     questionId String
-    @@unique([voterToken, questionId])
-    @@index([voterToken])
+    @@unique([userId, questionId])
+    @@index([userId])
     @@index([questionId])
 }
 

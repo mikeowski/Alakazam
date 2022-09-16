@@ -11,57 +11,58 @@ export const QuestionRouter = createRouter()
     },
   })
   .query('get-all-my-quesitons', {
-    async resolve({ ctx }) {
-      if (!ctx.token) return []
+    input: z.object({ userId: z.string() }),
+    async resolve({ input }) {
+      if (!input.userId) return []
       return await prisma.question.findMany({
-        where: { ownerToken: { equals: ctx.token } },
+        where: { userId: input.userId },
       })
     },
   })
   .query('get-from-id', {
-    input: z.object({ id: z.string() }),
-    async resolve({ input, ctx }) {
+    input: z.object({ questionId: z.string(), userId: z.string() }),
+    async resolve({ input }) {
       const pollData = await prisma.question.findUnique({
         where: {
-          id: input.id,
+          id: input.questionId,
         },
       })
 
       const myVoteData = await prisma.vote.findFirst({
         where: {
-          questionId: { equals: input.id },
-          voterToken: { equals: ctx.token },
+          questionId: { equals: input.questionId },
+          userId: { equals: input.userId },
         },
       })
 
       const votes =
-        myVoteData || pollData?.ownerToken === ctx.token
+        myVoteData || pollData?.userId === input.userId
           ? await prisma.vote.groupBy({
               by: ['choice'],
               where: {
-                questionId: { equals: input.id },
+                questionId: { equals: input.questionId },
               },
               _count: true,
             })
           : []
       return {
         poll: pollData,
-        isOwner: pollData?.ownerToken === ctx.token,
+        isOwner: pollData?.userId === input.userId,
         myVote: myVoteData,
         votes,
       }
     },
   })
   .mutation('create', {
-    input: createQuestionValidator,
-    async resolve({ input, ctx }) {
-      if (!ctx.token) throw new Error('unauthorized')
+    input: z.object({ question: createQuestionValidator, userId: z.string() }),
+    async resolve({ input }) {
+      if (!input.userId) throw new Error('unauthorized')
       return await prisma.question.create({
         data: {
-          question: input.question,
-          options: input.options,
-          ownerToken: ctx.token,
-          isPublic: input.isPublic,
+          question: input.question.question,
+          options: input.question.options,
+          userId: input.userId,
+          isPublic: input.question.isPublic,
         },
       })
     },
@@ -70,12 +71,13 @@ export const QuestionRouter = createRouter()
     input: z.object({
       questionId: z.string(),
       optionIndex: z.number().min(0).max(19),
+      userId: z.string(),
     }),
     async resolve({ input, ctx }) {
-      if (!ctx.token) throw new Error('unauthorized')
+      if (!input.userId) throw new Error('unauthorized')
       return await prisma.vote.create({
         data: {
-          voterToken: ctx.token,
+          userId: input.userId,
           questionId: input.questionId,
           choice: input.optionIndex,
         },

@@ -1,18 +1,22 @@
 import { withTRPC } from '@trpc/next'
 import superjson from 'superjson'
+import { SessionProvider } from 'next-auth/react'
 import { AppType } from 'next/dist/shared/lib/utils'
 import type { AppRouter } from '../backend/router'
 import Header from '../components/header'
 import '../styles/globals.css'
 import Footer from '../components/footer'
 
-const MyApp: AppType = ({ Component, pageProps }) => {
+const MyApp: AppType = ({
+  Component,
+  pageProps: { session, ...pageProps },
+}) => {
   return (
-    <div>
+    <SessionProvider session={session}>
       <Header />
       <Component {...pageProps} />
       <Footer />
-    </div>
+    </SessionProvider>
   )
 }
 function getBaseUrl() {
@@ -34,7 +38,7 @@ function getBaseUrl() {
 }
 
 export default withTRPC<AppRouter>({
-  config({ ctx }) {
+  config() {
     /**
      * If you want to use SSR, you need to use the server's full URL
      * @link https://trpc.io/docs/ssr
@@ -42,11 +46,6 @@ export default withTRPC<AppRouter>({
     const url = `${getBaseUrl()}/api/trpc`
 
     return {
-      headers() {
-        return {
-          cookie: ctx?.req?.headers.cookie,
-        }
-      },
       url,
       transformer: superjson,
 

@@ -7,6 +7,7 @@ import {
 } from '../shared/create-question-validator'
 import { useRouter } from 'next/router'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import { useSession } from 'next-auth/react'
 
 const CreatePoll = () => {
   const {
@@ -29,6 +30,7 @@ const CreatePoll = () => {
       name: 'options', // unique name for your Field Array
     }
   )
+  const { data: session } = useSession()
   const client = trpc.useContext()
   const router = useRouter()
 
@@ -51,7 +53,7 @@ const CreatePoll = () => {
       <div className="flex items-center">
         <form
           onSubmit={handleSubmit((data) => {
-            mutate(data)
+            mutate({ question: data, userId: session?.user.id! })
           })}
           className="w-full outline-none"
         >
