@@ -15,3 +15,8 @@ body {
   border border-gray-900 hover:border-gray-500 transition-all
   dark:text-gray-200 rounded-md;
 }
+.boxWithHover-danger {
+  @apply dark:bg-gray-700 dark:border-red-600 dark:hover:border-red-400
+  border-2 border-red-900 hover:border-red-500 transition-all
+  dark:text-red-200 text-red-800 rounded-md;
+}

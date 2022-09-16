@@ -7,7 +7,7 @@ import Welcome from '../../components/welcome'
 import { trpc } from '../../utils/trpc'
 
 const QuestionPage: NextPage = () => {
-  const { query, push } = useRouter()
+  const { query } = useRouter()
   const { id } = query
   const { data: session } = useSession()
   if (!id || typeof id !== 'string') {
@@ -126,6 +126,16 @@ const QuestionPage: NextPage = () => {
                 total votes: {data.myVote ? totalVoteCalculator() : ''}
               </div>
             ) : null}
+            <div>
+              {data.isOwner && (
+                <button
+                  className="hover:cursor-pointer px-4 py-2 col-span-2 form-input boxWithHover-danger"
+                  onClick={() => {}}
+                >
+                  Close and Delete
+                </button>
+              )}
+            </div>
           </div>
         </>
       ) : (
