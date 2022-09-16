@@ -3,6 +3,7 @@ import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import SingIn from '../../components/signIn'
+import Welcome from '../../components/welcome'
 import { trpc } from '../../utils/trpc'
 
 const QuestionPage: NextPage = () => {
@@ -68,6 +69,7 @@ const QuestionPage: NextPage = () => {
       {session ? (
         <>
           <div className="flex flex-col items-center container ">
+            <Welcome />
             <div className="flex gap-4">
               <div
                 className={
@@ -141,7 +143,6 @@ const QuestionPage: NextPage = () => {
               </div>
             ) : null}
           </div>
-          <button onClick={() => signOut()}>Sign Out</button>
         </>
       ) : (
         <>
