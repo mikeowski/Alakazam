@@ -59,7 +59,9 @@ const QuestionPage: NextPage = () => {
   }
   if (isLoading) {
     return (
-      <div className="m-48 text-center text-4xl animate-pulse">Loading..</div>
+      <div className="m-48 text-center text-4xl animate-pulse flex flex-col justify-center items-center">
+        Loading..
+      </div>
     )
   }
   return (
