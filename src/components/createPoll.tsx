@@ -127,7 +127,12 @@ const CreatePoll = () => {
               <label className="flex items-center justify-between w-full sm:col-span-2 col-span-2">
                 <span className="sm:text-lg">Public</span>
                 <div className="switch" data-ison={isOn} onClick={toggleSwitch}>
-                  <motion.div className="handle" layout transition={spring} />
+                  <motion.div
+                    className="handle"
+                    data-ison={isOn}
+                    layout
+                    transition={spring}
+                  />
                 </div>
               </label>
             </div>

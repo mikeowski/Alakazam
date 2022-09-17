@@ -40,6 +40,9 @@ body {
   height: 30px;
 }
 .handle {
-  @apply dark:bg-gray-600 
+  @apply dark:bg-red-500 
    bg-gray-900 rounded-full;
+}
+.handle[data-ison='true'] {
+  @apply bg-green-600;
 }
