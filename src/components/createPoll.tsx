@@ -120,12 +120,12 @@ const CreatePoll = () => {
                 type="button"
                 value="add mode options"
                 onClick={() => append({ text: '' })}
-                className="form-input px-4 py-2 boxWithHover text-center sm:col-span-4 col-span-4 "
+                className="form-input px-4 py-2 boxWithHover text-center sm:col-span-4 col-span-6"
               >
                 Add option
               </button>
-              <label className="flex items-center justify-between w-full sm:col-span-2 col-span-2">
-                <span className="sm:text-lg">Public</span>
+              <label className="flex items-center justify-between w-full sm:col-span-2 col-span-6">
+                <span className="sm:text-lg text-xl">Public</span>
                 <div className="switch" data-ison={isOn} onClick={toggleSwitch}>
                   <motion.div
                     className="handle"
