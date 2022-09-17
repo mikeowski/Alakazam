@@ -31,7 +31,7 @@ const LivePolls: React.FC = () => {
     },
   }
   return (
-    <div className="flex flex-col sm:flex-row mt-20 justify-evenly w-full">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-20 justify-evenly w-full">
       <div>
         {!isLoading && (!data || data.length == 0) ? (
           <h2 className="text-2xl text-center">Your dont have a poll yet</h2>
