@@ -7,7 +7,7 @@ import SingIn from '../components/signIn'
 const Home: NextPage = () => {
   const { data: session } = useSession()
   return (
-    <div className="container flex flex-col items-center justify-center px-20 ">
+    <div className="container  px-20 ">
       <div>
         {session ? (
           <>

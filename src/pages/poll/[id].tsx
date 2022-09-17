@@ -68,7 +68,7 @@ const QuestionPage: NextPage = () => {
     <div>
       {session && !(!isLoading && (!data?.poll || !data)) ? (
         <>
-          <div className="flex flex-col items-center container ">
+          <div className="flex flex-col items-center container">
             <div className="flex gap-4">
               <div
                 className={
@@ -95,11 +95,11 @@ const QuestionPage: NextPage = () => {
               {data.poll?.question}
             </h1>
 
-            <div className="flex flex-wrap gap-2 w-full items-center justify-center mt-10">
+            <div className="grid grid-cols-2 mt-10 w-full gap-2 px-4">
               {(data.poll?.options as string[]).map((option, index) => (
                 <button
                   key={index}
-                  className={`rounded-lg w-1/3 text-center h-14 relative  ${
+                  className={`rounded-lg sm:col-span-1 col-span-2 text-center h-14 relative  ${
                     data.myVote?.choice == index
                       ? 'ring ring-green-500'
                       : 'boxWithHover'
@@ -144,7 +144,7 @@ const QuestionPage: NextPage = () => {
             <div>
               {data.isOwner && (
                 <button
-                  className="hover:cursor-pointer px-4 py-2 col-span-2 form-input boxWithHover-danger"
+                  className="hover:cursor-pointer px-4 py-2 col-span-2 form-input boxWithHover-danger mt-10"
                   onClick={() => {
                     deleteQuestion({ questionId: data.poll?.id! })
                   }}
