@@ -14,7 +14,7 @@ const Header = () => {
       {session ? (
         <div className="flex justify-center items-center gap-4 text-xl">
           <div className="flex flex-col">
-            <span>{session.user.name}</span>
+            <span className="font-bold">{session.user.name}</span>
             <button
               className="hover:cursor-pointer py-1 col-span-2 form-input boxWithHover"
               onClick={() => signOut()}
@@ -31,7 +31,7 @@ const Header = () => {
           />
         </div>
       ) : (
-        <div className="w-14 h-14 rounded-lg border border-gray-300"></div>
+        <span>Not signed in</span>
       )}
     </header>
   )
