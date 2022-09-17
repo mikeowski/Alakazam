@@ -8,7 +8,8 @@ import {
 import { useRouter } from 'next/router'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { useSession } from 'next-auth/react'
-
+import { useState } from 'react'
+import { motion } from 'framer-motion'
 const CreatePoll = () => {
   const {
     register,
@@ -21,9 +22,12 @@ const CreatePoll = () => {
     resolver: zodResolver(createQuestionValidator),
     defaultValues: {
       options: [{ text: 'Yes' }, { text: 'No' }],
+      isPublic: false,
     },
   })
   const [animate] = useAutoAnimate<HTMLDivElement>()
+  const [isOn, setIsOn] = useState<boolean>(false)
+  const toggleSwitch = () => setIsOn(!isOn)
   const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
     {
       control, // control props comes from useForm (optional: if you are using FormContext)
@@ -40,6 +44,12 @@ const CreatePoll = () => {
     },
   })
 
+  const spring = {
+    type: 'spring',
+    stiffness: 700,
+    damping: 30,
+  }
+
   if (isLoading || data)
     return (
       <div className="m-48 text-center text-4xl animate-pulse">Loading..</div>
@@ -53,7 +63,10 @@ const CreatePoll = () => {
       <div>
         <form
           onSubmit={handleSubmit((data) => {
-            mutate({ question: data, userId: session?.user.id! })
+            mutate({
+              question: { ...data, isPublic: isOn },
+              userId: session?.user.id!,
+            })
           })}
           className="w-full outline-none"
         >
@@ -107,17 +120,20 @@ const CreatePoll = () => {
                 type="button"
                 value="add mode options"
                 onClick={() => append({ text: '' })}
-                className="form-input px-4 py-2 boxWithHover text-center sm:col-span-5 col-span-4 "
+                className="form-input px-4 py-2 boxWithHover text-center sm:col-span-4 col-span-4 "
               >
                 Add option
               </button>
-              <label className="flex items-center justify-between w-full sm:col-span-1 col-span-2">
+              <label className="flex items-center justify-between w-full sm:col-span-2 col-span-2">
                 <span className="sm:text-lg">Public</span>
-                <input
-                  type="checkbox"
-                  {...register('isPublic')}
-                  className="w-8 h-8 flex-none rounded-md text-black  dark:text-gray-500 indeterminate:bg-gray-300 checked:ring-0"
-                />
+                <div className="switch" data-ison={isOn} onClick={toggleSwitch}>
+                  <motion.div
+                    className="handle"
+                    data-ison={isOn}
+                    layout
+                    transition={spring}
+                  />
+                </div>
               </label>
             </div>
             <input
