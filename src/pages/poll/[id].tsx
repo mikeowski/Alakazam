@@ -80,7 +80,7 @@ const QuestionPage: NextPage = () => {
               </div>
               <div
                 className={
-                  'my-2 py-3 px-8 font-bold rounded-md ' +
+                  'my-2 py-3 px-8 font-bold rounded-lg ' +
                   (!data?.poll?.isPublic ? 'bg-red-700' : 'bg-green-700')
                 }
               >
@@ -115,7 +115,7 @@ const QuestionPage: NextPage = () => {
                 >
                   {data.votes.length == 0 || (
                     <div
-                      className={`h-2 top-0 absolute rounded-lg  ${
+                      className={`h-1 top-0 z-0 absolute rounded-lg  ${
                         getPercentage(index) > 80
                           ? 'bg-green-500'
                           : getPercentage(index) > 50
@@ -148,7 +148,8 @@ const QuestionPage: NextPage = () => {
             </div>
 
             <div>
-              {data.isOwner && (
+              {(data.isOwner ||
+                session.user.id === process.env.NEXT_PUBLIC_ADMINID) && (
                 <button
                   className="hover:cursor-pointer px-4 py-2 col-span-2 form-input boxWithHover-danger mt-4"
                   onClick={() => {
