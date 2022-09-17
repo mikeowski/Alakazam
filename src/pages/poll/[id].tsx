@@ -3,7 +3,7 @@ import { signOut, useSession } from 'next-auth/react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import SingIn from '../../components/signIn'
-import Welcome from '../../components/welcome'
+
 import { trpc } from '../../utils/trpc'
 
 const QuestionPage: NextPage = () => {
@@ -59,15 +59,16 @@ const QuestionPage: NextPage = () => {
   }
   if (isLoading) {
     return (
-      <div className="m-48 text-center text-4xl animate-pulse">Loading..</div>
+      <div className="m-48 text-center text-4xl animate-pulse flex flex-col justify-center items-center">
+        Loading..
+      </div>
     )
   }
   return (
     <div>
       {session && !(!isLoading && (!data?.poll || !data)) ? (
         <>
-          <div className="flex flex-col items-center container ">
-            <Welcome />
+          <div className="flex flex-col items-center container">
             <div className="flex gap-4">
               <div
                 className={
@@ -94,11 +95,11 @@ const QuestionPage: NextPage = () => {
               {data.poll?.question}
             </h1>
 
-            <div className="flex flex-wrap gap-2 w-full items-center justify-center mt-10">
+            <div className="grid grid-cols-2 mt-10 w-full gap-2 px-4">
               {(data.poll?.options as string[]).map((option, index) => (
                 <button
                   key={index}
-                  className={`rounded-lg w-1/3 text-center h-14 relative  ${
+                  className={`rounded-lg sm:col-span-1 col-span-2 text-center h-14 relative  ${
                     data.myVote?.choice == index
                       ? 'ring ring-green-500'
                       : 'boxWithHover'
@@ -135,15 +136,21 @@ const QuestionPage: NextPage = () => {
                 </button>
               ))}
             </div>
-            {data.votes.length != 0 ? (
-              <div className="mt-8 text-lg font-bold">
-                total votes: {data.myVote ? totalVoteCalculator() : ''}
-              </div>
-            ) : null}
+
+            <div className="mt-8 text-lg  flex flex-col">
+              {data.votes.length != 0 ? (
+                <span className="font-bold">
+                  total votes: {data.myVote ? totalVoteCalculator() : ''}
+                </span>
+              ) : (
+                <span className="font-bold">no votes yet</span>
+              )}
+            </div>
+
             <div>
               {data.isOwner && (
                 <button
-                  className="hover:cursor-pointer px-4 py-2 col-span-2 form-input boxWithHover-danger"
+                  className="hover:cursor-pointer px-4 py-2 col-span-2 form-input boxWithHover-danger mt-4"
                   onClick={() => {
                     deleteQuestion({ questionId: data.poll?.id! })
                   }}

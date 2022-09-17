@@ -7,7 +7,7 @@ body {
   dark:bg-gray-900 dark:text-gray-200 pb-10;
 }
 .container {
-  @apply max-w-screen-lg
+  @apply sm:max-w-screen-lg w-screen
   mx-auto mt-20;
 }
 .boxWithHover {

@@ -46,19 +46,19 @@ const CreatePoll = () => {
     )
 
   return (
-    <div className="flex flex-col  w-full">
+    <div className="flex flex-col w-full">
       <h2 className="md:text-4xl text-2xl text-center mb-4 font-extrabold">
         Create New Poll
       </h2>
-      <div className="flex items-center">
+      <div>
         <form
           onSubmit={handleSubmit((data) => {
             mutate({ question: data, userId: session?.user.id! })
           })}
           className="w-full outline-none"
         >
-          <div className="grid grid-cols-2 gap-2 ">
-            <label className="block col-span-2 text-lg">
+          <div className="grid grid-cols-3 gap-2">
+            <label className="block col-span-3 text-lg">
               <span className="dark:text-gray-200 font-bold">Question</span>
               <input
                 type="text"
@@ -67,18 +67,18 @@ const CreatePoll = () => {
                 {...register('question', { required: true })}
               />
             </label>{' '}
-            <span className="col-span-2 font-bold dark:text-gray-200">
+            <span className="col-span-3 font-bold dark:text-gray-200">
               Options
             </span>
             <div
-              className="grid grid-cols-2 w-full col-span-2 gap-2"
+              className="grid grid-cols-2 w-full col-span-3 gap-2"
               ref={animate}
             >
               {fields.map((field, index) => {
                 return (
                   <div
                     key={field.id}
-                    className="col-span-2 lg:col-span-1 px-4 py-2 h-10 boxWithHover"
+                    className="col-span-3 lg:col-span-1 px-4 py-2 h-10 boxWithHover"
                   >
                     <section className={'flex justify-between'} key={field.id}>
                       <input
@@ -101,18 +101,18 @@ const CreatePoll = () => {
                 )
               })}
             </div>
-            <div className="col-span-2 grid grid-cols-6 gap-4">
+            <div className="col-span-3 grid grid-cols-6 gap-4">
               {' '}
               <button
                 type="button"
                 value="add mode options"
                 onClick={() => append({ text: '' })}
-                className="form-input px-4 py-2 boxWithHover text-center sm:col-span-4 col-span-3 "
+                className="form-input px-4 py-2 boxWithHover text-center sm:col-span-5 col-span-4 "
               >
                 Add option
               </button>
-              <label className="flex items-center justify-between w-full sm:col-span-2 col-span-3">
-                <span className="sm:text-lg sm:font-bold">Public</span>
+              <label className="flex items-center justify-between w-full sm:col-span-1 col-span-2">
+                <span className="sm:text-lg">Public</span>
                 <input
                   type="checkbox"
                   {...register('isPublic')}
@@ -123,7 +123,7 @@ const CreatePoll = () => {
             <input
               type="submit"
               value="Create a poll"
-              className="hover:cursor-pointer px-4 py-2 col-span-2 form-input boxWithHover"
+              className="hover:cursor-pointer px-4 py-2 col-span-3 form-input boxWithHover"
             />
             {errors.question && (
               <span className="dark:text-red-500 text-red-600">
