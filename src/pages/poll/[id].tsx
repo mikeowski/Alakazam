@@ -136,15 +136,21 @@ const QuestionPage: NextPage = () => {
                 </button>
               ))}
             </div>
-            {data.votes.length != 0 ? (
-              <div className="mt-8 text-lg font-bold">
-                total votes: {data.myVote ? totalVoteCalculator() : ''}
-              </div>
-            ) : null}
+
+            <div className="mt-8 text-lg  flex flex-col">
+              {data.votes.length != 0 ? (
+                <span className="font-bold">
+                  total votes: {data.myVote ? totalVoteCalculator() : ''}
+                </span>
+              ) : (
+                <span className="font-bold">no votes yet</span>
+              )}
+            </div>
+
             <div>
               {data.isOwner && (
                 <button
-                  className="hover:cursor-pointer px-4 py-2 col-span-2 form-input boxWithHover-danger mt-10"
+                  className="hover:cursor-pointer px-4 py-2 col-span-2 form-input boxWithHover-danger mt-4"
                   onClick={() => {
                     deleteQuestion({ questionId: data.poll?.id! })
                   }}
